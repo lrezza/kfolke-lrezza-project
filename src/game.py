@@ -20,11 +20,10 @@ def setup():                                                # Setup window etc
     pg.display.init()
     pg.event.get()
     display = pg.display.set_mode((display_x, display_y))
-    display.fill((150, 150, 150))
+    display.fill((50, 50, 50))
     pg.display.set_caption('Tetris')
     clock = pg.time.Clock()
     return display, clock
-
 
 if __name__ == "__main__":
     main()
