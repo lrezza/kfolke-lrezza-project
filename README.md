@@ -32,11 +32,11 @@ The work will be divided by milestone, so each person will take on their own mil
 
 #### Week 18
 
--Create a drawable grid
+- Create a drawable grid
     This will be used for drawing empty and filled squares of different colors by passing in a matrix will integer values 
     ranging from 0 to 7 where 1-7 are the colors of figures 1-7.
 
--Create class for figures, shapes and points
+- Create class for figures, shapes and points
     Each one of the seven figures will have a unique color and shape.
 ![](https://mindyourdecisions.com/blog/wp-content/uploads/2018/05/tetris-riddle-thumb-600.png)
     
