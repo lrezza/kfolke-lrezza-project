@@ -9,10 +9,20 @@ class Point:
 class Shape:
     def __init__(self, rotations):
         self.rotations = rotations
+        self.rot_state = 0
         pass
-        
+    
+    def rotate(self):
+        self.rot_state += (self.rot_state + 1) % 4
+
+    def get_current(self):
+        return self.rotations[self.rot_state]
+
 #Represents the instance of a figure in the scene
 class Figure:
-    def __init__(self):
+    def __init__(self, shape, pos):
+        self.shape = shape
+        self.shape.rot_state = 0
+        self.pos = pos
         pass
 
