@@ -5,7 +5,7 @@ class Point:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-
+    
     #Takes a parent point(figure pos) and a local integer representing a position of a block in a shape, and
     #converts into global grid point
     def shape_local_to_global(self, parent, local):
@@ -38,16 +38,17 @@ class Figure:
         current_shape = self.shape.get_current()
         block_points = []
         for n in range(4):
-            block_point = Point(0, 0).shape_local_to_global(self.pos, current_shape[n])
-            if grid[block_point.x][block_point.y] == 0:
-                block_points[n] = block_point
+            block_point = Point(0, 0)
+            block_point.shape_local_to_global(self.pos, current_shape[n])
+            if grid[block_point.y][block_point.x] == 0: #ERROR 
+                block_points.append(block_point) #ERROR
             else:
                 return False
         color = self.shape.color
 
         for n in range(4):
             block_point = block_points[n]
-            grid[block_point.x][block_point.y] = color
+            grid[block_point.y][block_point.x] = color
         
         return True
 

@@ -1,4 +1,5 @@
 import pygame as pg
+import tetris_classes as tc
 
 fps = 5 
 square_size = 15
@@ -11,9 +12,16 @@ events = []
 def main():
     global events
     display, clock = setup()                                
-    #2d grid o
-    grid  = [[0 for x in range(count_sqr_x)]for y in range(count_sqr_y)]
-
+    #2d grid
+    grid = [[0 for x in range(count_sqr_x)]for y in range(count_sqr_y)]
+    
+    figure1 = tc.Figure(tc.shapes[0], tc.Point(2, 2))
+    figure2 = tc.Figure(tc.shapes[1], tc.Point(2, 6))
+    figure3 = tc.Figure(tc.shapes[2], tc.Point(2, 10))
+    figure1.draw_shape(grid)
+    figure2.draw_shape(grid)
+    figure3.draw_shape(grid)
+    
     while True:                                             # Main gameloop
         events = pg.event.get()                             # Fetch events such as input
         draw_grid(grid,display)
@@ -38,10 +46,13 @@ def draw_grid(grid, dis):
     counter = 1
     for x in range(count_sqr_x):
         for y in range(count_sqr_y):
-            if (x+y)%2==0: 
-                pg.draw.rect(dis, (50, 50, 50), [ x * square_size, y * square_size, square_size, square_size])
+            if grid[y][x] == 0: #ERROR
+                if (x+y)%2==0: 
+                    pg.draw.rect(dis, (50, 50, 50), [ x * square_size, y * square_size, square_size, square_size])
+                else:
+                    pg.draw.rect(dis, (60, 60, 60), [ x * square_size, y * square_size, square_size, square_size])
             else:
-                pg.draw.rect(dis, (60, 60, 60), [ x * square_size, y * square_size, square_size, square_size])
+                pg.draw.rect(dis, (250, 0, 0), [ x * square_size, y * square_size, square_size, square_size])
             counter = counter +1
 
 if __name__ == "__main__":
