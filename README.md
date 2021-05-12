@@ -40,3 +40,4 @@ The work will be divided by milestone, so each person will take on their own mil
     Each one of the seven figures will have a unique color and shape.
 ![](https://mindyourdecisions.com/blog/wp-content/uploads/2018/05/tetris-riddle-thumb-600.png)
     
+Project by Leonardo Rezza and Klara Folke 2021
