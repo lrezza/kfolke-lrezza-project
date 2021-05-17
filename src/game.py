@@ -7,6 +7,8 @@ count_sqr_x = 10
 count_sqr_y = 20
 display_x, display_y = (count_sqr_x*square_size), (count_sqr_y*square_size)
 events = []  
+#Array of RGB-colors for the figures in order: L, S, J, I, T, Z, O
+fig_color = [[249, 166, 0], [0, 255, 0], [0, 0, 255], [0, 255, 255], [162, 0, 255], [255, 0, 0], [255, 255, 0]]
 
 #The main program
 def main():
@@ -48,18 +50,21 @@ def setup():
     return display, clock
 
 # Function to draw grid to display
-# Param: 
+# Param: grid, dis
+# Return -
 def draw_grid(grid, dis):
     counter = 1
+    #Loop through the grid to draw every square
     for x in range(count_sqr_x):
         for y in range(count_sqr_y):
-            if grid[y][x] == 0: #ERROR
+            if grid[y][x] == 0: # Empty square
                 if (x+y)%2==0: 
                     pg.draw.rect(dis, (50, 50, 50), [ x * square_size, y * square_size, square_size, square_size])
                 else:
                     pg.draw.rect(dis, (60, 60, 60), [ x * square_size, y * square_size, square_size, square_size])
-            else:
-                pg.draw.rect(dis, (250, 0, 0), [ x * square_size, y * square_size, square_size, square_size])
+            else : # Draw figure in correct color according to which figure it is
+                fig_num = grid[y][x] - 1
+                pg.draw.rect(dis, (fig_color[fig_num][0], fig_color[fig_num][1], fig_color[fig_num][2]), [ x * square_size, y * square_size, square_size, square_size])
             counter = counter +1
             
 
