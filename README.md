@@ -32,12 +32,20 @@ The work will be divided by milestone, so each person will take on their own mil
 
 #### Week 18
 
-- Create a drawable grid:
+- Create a drawable grid: (Klara)
     This will be used for drawing empty and filled squares of different colors by passing in a matrix will integer values 
     ranging from 0 to 7 where 1-7 are the colors of figures 1-7.
 
-- Create class for figures, shapes and points:
-    Each one of the seven figures will have a unique color and shape.
+- Create class for figures, shapes and points: (Leo)
+    Each one of the seven figures will have a unique color and shape. Shapes class will be used to predefine
+    the 7 different shapes of figures in tetris and will be used in the figureclass instance for drawing and collisionchecking.
 ![](https://mindyourdecisions.com/blog/wp-content/uploads/2018/05/tetris-riddle-thumb-600.png)
-    
+
+#### Week 19
+- Add colors based on shapes and ticktimer for gravity (Klara)
+    You should be able to move a couple of times before each "gravitytick"
+
+- Add input and collisionchecks for figures (Leo)
+    Make sure that figures don't go through walls and that they stick to the ground on collision.
+
 Project by Leonardo Rezza and Klara Folke 2021
