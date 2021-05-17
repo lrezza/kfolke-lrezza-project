@@ -40,8 +40,8 @@ class Figure:
         for n in range(4):
             block_point = Point(0, 0)
             block_point.shape_local_to_global(self.pos, current_shape[n])
-            if grid[block_point.y][block_point.x] == 0: #ERROR 
-                block_points.append(block_point) #ERROR
+            if grid[block_point.y][block_point.x] == 0: 
+                block_points.append(block_point) 
             else:
                 return False
         color = self.shape.color
