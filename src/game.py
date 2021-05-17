@@ -36,7 +36,6 @@ def main():
             figure1.pos.y+=1
         counter_tick+=1
 
-            
 # Setup window etc
 def setup():                                                
     pg.display.init()
