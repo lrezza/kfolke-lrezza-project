@@ -22,12 +22,17 @@ def main():
     figure2.draw_shape(grid)
     figure3.draw_shape(grid)
     
+    counter_tick = 0
+
     while True:                                             # Main gameloop
         events = pg.event.get()                             # Fetch events such as input
         draw_grid(grid,display)
         pg.display.update()                                 # Update changes made to display
         clock.tick(fps)                                     # Tick
+        if counter_tick % 5 == 0:
+            grid = gravity_fig(grid)
 
+            
 # Setup window etc
 def setup():                                                
     pg.display.init()
@@ -54,6 +59,9 @@ def draw_grid(grid, dis):
             else:
                 pg.draw.rect(dis, (250, 0, 0), [ x * square_size, y * square_size, square_size, square_size])
             counter = counter +1
+# Function to move down the active figure one square in grid system
+def gravity_fig(grid):
+    return grid
 
 if __name__ == "__main__":
     main()
