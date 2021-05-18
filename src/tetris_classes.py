@@ -44,7 +44,7 @@ class Figure:
         self.pos = pos
 
     #Checks if current rotationshape collides with anything in the grid
-    def check_collision(self, grid):
+    def colliding(self, grid):
         height = len(grid)
         width = len(grid[0])
         current_shape = self.shape.get_current()
@@ -55,8 +55,8 @@ class Figure:
             if (block_point.y < 0 or block_point.y >= height or          
                 block_point.x < 0 or block_point.x >= width or            
                 grid[block_point.y][block_point.x] != 0):                  
-                return False                                             
-        return True
+                return True                                             
+        return False
 
     #Appends the current rotationshape to a grid used for drawing,
     #collision should be checked before drawing
