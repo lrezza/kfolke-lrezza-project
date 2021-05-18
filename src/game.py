@@ -12,37 +12,52 @@ fig_color = [[249, 166, 0], [0, 255, 0], [0, 0, 255], [0, 255, 255], [162, 0, 25
 
 #The main program
 def main():
-    global events
     display, clock = setup()                                
     counter_tick = 0
-
     figure = tc.Figure(tc.shapes[0], tc.Point(0, 0))
     
-    while True:                                             # Main gameloop
-        events = pg.event.get()                             # Fetch events such as input
-        grid = [[0 for x in range(count_sqr_x)]
-            for y in range(count_sqr_y)]                    #2d grid
+    while True:                                             
+        game_loop(display, clock, counter_tick, figure)
+        counter_tick += 1
 
-        gravityApplied = False
-        if counter_tick % 5 == 0:                           # Drop down the active figure one square 
-            figure.pos.y+=1
+# Main gameloop
+def game_loop(display, clock, counter_tick, figure):
+    global events
+    events = pg.event.get()                             # Fetch events such as input
+    grid = [[0 for x in range(count_sqr_x)]
+        for y in range(count_sqr_y)]                    #2d grid
+
+    gravityApplied = False
+    if counter_tick % 5 == 0:                           # Drop down the active figure one square 
+        figure.pos.y += 1
+        if figure.colliding(grid):
+            figure.pos.y -= 1
+        else:
             gravityApplied = True
 
-        if key_pressed(pg.K_w):
-            figure.shape.rotate()
-
-        if key_pressed(pg.K_a):
-            figure.pos.x -= 1
-        elif key_pressed(pg.K_d):
+    if key_pressed(pg.K_w):
+        figure.shape.rotate()
+        if figure.colliding(grid):
+            figure.shape.rotate_back()
+        
+    if key_pressed(pg.K_a):
+        figure.pos.x -= 1
+        if figure.colliding(grid):
             figure.pos.x += 1
-        elif key_pressed(pg.K_s) and not gravityApplied:
-            figure.pos.y += 1
+    elif key_pressed(pg.K_d):
+        figure.pos.x += 1
+        if figure.colliding(grid):
+            figure.pos.x -= 1
+    elif key_pressed(pg.K_s) and not gravityApplied:
+        figure.pos.y += 1
+        if figure.colliding(grid):
+            figure.pos.y -= 1
 
-        figure.draw_shape(grid)
-        draw_grid(grid,display)
-        pg.display.update()                                 # Update changes made to display
-        clock.tick(fps)                                     # Tick
-        counter_tick+=1
+    figure.draw_shape(grid)
+    draw_grid(grid,display)
+    pg.display.update()                                 # Update changes made to display
+    clock.tick(fps)                                     # Tick
+    counter_tick+=1
 
 # Check if given key is pressed
 def key_pressed(key):
