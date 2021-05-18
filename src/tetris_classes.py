@@ -12,16 +12,27 @@ class Point:
         self.x = parent.x + (local % 4)
         self.y = parent.y + math.floor(local / 4)
 
-#Stores an array with up to four arrays representing a shape with its rotations (states)
+#Stores an array with up to four arrays of length 4 representing a shape with its rotations (states)
+#Each rotationshape with length 4 represents the indices of the four blocks of the shape in a 4x4 matrix
+#Example L-shape rotationstate 1: [3, 5, 6, 7] which corresponds to:
+# 0 0 0 1   
+# 0 1 1 1
+# 0 0 0 0
 class Shape:
     def __init__(self, rotations, color):
         self.rotations = rotations
         self.rot_state = 0
         self.color = color
     
+    #Increments current rotationstate which stores the current rotation
     def rotate(self):
         self.rot_state = (self.rot_state + 1) % len(self.rotations)
 
+    #Decrements current rotationstate, used for reversing rotation in case of collision
+    def rotate_back(self):
+        self.rot_state = (self.rot_state - 1) % len(self.rotations)
+
+    #Returns current rotation in form of a array with length 4
     def get_current(self):
         return self.rotations[self.rot_state]
 
@@ -32,6 +43,8 @@ class Figure:
         self.shape.rot_state = 0
         self.pos = pos
     
+    #Appends the current rotationshape to a grid used for drawing
+    #if all modified values in the grid are empty (0) to begin with
     def draw_shape(self, grid):
         height = len(grid)
         width = len(grid[0])
@@ -52,6 +65,8 @@ class Figure:
         
         return True
 
+#Creating instances of the shapeclass representing the 7 different shapes in tetris
+#with their corresponding rotations
 shape_L = Shape([[3, 5, 6, 7], [1, 2, 6, 10], [5, 6, 7, 9], [2, 6, 10, 11]], 1)
 shape_S = Shape([[1, 2, 4, 5], [0, 4, 5, 9], [5, 6, 8, 9], [1, 5, 6, 10]], 2)
 shape_J = Shape([[4, 5, 6, 10], [1, 2, 5, 9], [0, 4, 5, 6], [1, 5, 8, 9]], 3)
