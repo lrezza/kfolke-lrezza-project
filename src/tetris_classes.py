@@ -42,9 +42,24 @@ class Figure:
         self.shape = shape
         self.shape.rot_state = 0
         self.pos = pos
-    
-    #Appends the current rotationshape to a grid used for drawing
-    #if all modified values in the grid are empty (0) to begin with
+
+    #Checks if current rotationshape collides with anything in the grid
+    def check_collision(self, grid):
+        height = len(grid)
+        width = len(grid[0])
+        current_shape = self.shape.get_current()
+        block_points = []
+        for n in range(4):
+            block_point = Point(0, 0)
+            block_point.shape_local_to_global(self.pos, current_shape[n])
+            if (block_point.y < 0 or block_point.y >= height or          
+                block_point.x < 0 or block_point.x >= width or            
+                grid[block_point.y][block_point.x] != 0):                  
+                return False                                             
+        return True
+
+    #Appends the current rotationshape to a grid used for drawing,
+    #collision should be checked before drawing
     def draw_shape(self, grid):
         height = len(grid)
         width = len(grid[0])
@@ -53,7 +68,10 @@ class Figure:
         for n in range(4):
             block_point = Point(0, 0)
             block_point.shape_local_to_global(self.pos, current_shape[n])
-            if grid[block_point.y][block_point.x] == 0: 
+            if (0 <= block_point.y and block_point.y < height and           #Make sure x and y coordinate
+                0 <= block_point.x and block_point.x < width and            #is within bounds of the grid
+                grid[block_point.y][block_point.x] == 0):                   #and the modified value is 
+                                                                            #initially = 0
                 block_points.append(block_point) 
             else:
                 return False
