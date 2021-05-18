@@ -1,7 +1,7 @@
 import pygame as pg
 import tetris_classes as tc
 
-fps = 5
+fps = 10
 square_size = 30
 count_sqr_x = 10
 count_sqr_y = 20
@@ -16,21 +16,42 @@ def main():
     display, clock = setup()                                
     counter_tick = 0
 
-    figure = tc.Figure(tc.shapes[0], tc.Point(2, 2))
+    figure = tc.Figure(tc.shapes[0], tc.Point(0, 0))
     
     while True:                                             # Main gameloop
         events = pg.event.get()                             # Fetch events such as input
         grid = [[0 for x in range(count_sqr_x)]
             for y in range(count_sqr_y)]                    #2d grid
 
+        gravityApplied = False
         if counter_tick % 5 == 0:                           # Drop down the active figure one square 
             figure.pos.y+=1
-        
+            gravityApplied = True
+
+        if key_pressed(pg.K_w):
+            figure.shape.rotate()
+
+        if key_pressed(pg.K_a):
+            figure.pos.x -= 1
+        elif key_pressed(pg.K_d):
+            figure.pos.x += 1
+        elif key_pressed(pg.K_s) and not gravityApplied:
+            figure.pos.y += 1
+
         figure.draw_shape(grid)
         draw_grid(grid,display)
         pg.display.update()                                 # Update changes made to display
         clock.tick(fps)                                     # Tick
         counter_tick+=1
+
+# Check if given key is pressed
+def key_pressed(key):
+    global events
+    for event in events:
+        if event.type == pg.KEYDOWN:
+            if event.key == key:
+                return True
+    return False
 
 # Setup window etc
 def setup():                                                
