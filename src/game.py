@@ -5,10 +5,17 @@ fps = 10
 square_size = 30
 count_sqr_x = 10
 count_sqr_y = 20
-display_x, display_y = (count_sqr_x*square_size), (count_sqr_y*square_size)
+dis_board_x, dis_board_y = (count_sqr_x*square_size), (count_sqr_y*square_size) # Dimension of grid-board
+display_x, display_y = (dis_board_x + 300), (dis_board_y)                       #Dimension of display
 events = []  
+
 #Array of RGB-colors for the figures in order: L, S, J, I, T, Z, O
 fig_color = [[249, 166, 0], [0, 255, 0], [0, 0, 255], [0, 255, 255], [162, 0, 255], [255, 0, 0], [255, 255, 0]]
+
+level = 0
+lines = 0
+score = 0
+
 
 #The main program
 def main():
@@ -35,11 +42,12 @@ def game_loop(display, clock, counter_tick, figure):
         else:
             gravityApplied = True
 
+
+    # Check if key is pressed by player and if so move in correct direction 
     if key_pressed(pg.K_w):
         figure.shape.rotate()
         if figure.colliding(grid):
             figure.shape.rotate_back()
-        
     if key_pressed(pg.K_a):
         figure.pos.x -= 1
         if figure.colliding(grid):
@@ -56,6 +64,7 @@ def game_loop(display, clock, counter_tick, figure):
     figure.draw_shape(grid)
     draw_grid(grid,display)
     pg.display.update()                                 # Update changes made to display
+   
     clock.tick(fps)                                     # Tick
     counter_tick+=1
 
@@ -67,6 +76,10 @@ def key_pressed(key):
             if event.key == key:
                 return True
     return False
+
+def update_text_dis(display, text, size, color):
+    font = pg.font.SysFont("comicsans", size, bold=True)
+    display.blit(label, (dis_board_x + play_width /2 - (label.get_width()/2), top_left_y + play_height/2 - label.get_height()/2))
 
 # Setup window etc
 def setup():                                                
