@@ -16,7 +16,7 @@ fig_color = [[249, 166, 0], [0, 255, 0], [0, 0, 255], [0, 255, 255], [162, 0, 25
 def main():
     display, clock = setup()                                
     counter_tick = 0
-    figure = tc.Figure(tc.shapes[0], tc.Point(0, 0))
+    figure = new_figure()
     static_grid = [[0 for x in range(count_sqr_x)]              #2d grid used for drawing 
         for y in range(count_sqr_y)]                            #static figures                  
     
@@ -24,8 +24,7 @@ def main():
         spawn_new_figure = game_loop(display, clock, counter_tick, figure, static_grid)
         counter_tick += 1
         if spawn_new_figure:
-            print("hello")
-            figure = tc.Figure(tc.shapes[0], tc.Point(0, 0))     
+            figure = new_figure()
              
 # Main gameloop
 def game_loop(display, clock, counter_tick, figure, static_grid):
@@ -61,13 +60,20 @@ def game_loop(display, clock, counter_tick, figure, static_grid):
         if figure.colliding(grid):
             figure.pos.y -= 1
             spawn_new_figure = True
-
+   
     figure.draw_shape(grid)
     draw_grid(grid,display)
     pg.display.update()                                 # Update changes made to display
     clock.tick(fps)                                     # Tick
     counter_tick+=1
-    return spawn_new_figure
+    if spawn_new_figure:
+        figure.draw_shape(static_grid)                  # Makes sure the old figure sticks to
+    return spawn_new_figure                             # the static grid on collision with ground
+
+# Returns a new random figure
+def new_figure():
+    random_index = random.randrange(7)
+    return tc.Figure(tc.shapes[random_index], tc.Point(2, 0))     
 
 # Check if given key is pressed
 def key_pressed(key):
