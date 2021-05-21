@@ -19,7 +19,10 @@ score = 0
 
 #The main program
 def main():
-    display, clock = setup()                                
+    display, clock = setup()
+
+
+
     counter_tick = 0
     figure = tc.Figure(tc.shapes[0], tc.Point(0, 0))
     
@@ -77,18 +80,32 @@ def key_pressed(key):
                 return True
     return False
 
-def update_text_dis(display, text, size, color):
-    font = pg.font.SysFont("comicsans", size, bold=True)
-    display.blit(label, (dis_board_x + play_width /2 - (label.get_width()/2), top_left_y + play_height/2 - label.get_height()/2))
+#def update_text_dis(display, text, size, color):
+    #font = pg.font.SysFont("comicsans", size, bold=True)
+    #display.blit(label, (dis_board_x + play_width /2 - (label.get_width()/2), top_left_y + play_height/2 - label.get_height()/2))
+   # text_obj=font_obj.render("Welcome to Pygame",True,font_color)
+       #Setup text for the display
+ #   font_color = (0,150,250)
+#    font_obj = pg.font.Font('freesansbold.ttf',25)
+ #   text_obj = font_obj.render("TETRIS",True,font_color)
+  #  display.blit(text_obj(dis_board_x + 10, 10))
 
 # Setup window etc
 def setup():                                                
     pg.display.init()
+    pg.font.init()          #initializes the font module
     pg.event.get()
     display = pg.display.set_mode((display_x, display_y))
     display.fill((10, 10, 10))
     pg.display.set_caption('Tetris')
     clock = pg.time.Clock()
+
+    #Setup text for the display
+    font_color = (0,150,250)
+    font_obj = pg.font.Font('freesansbold.ttf',25)
+    text_obj = font_obj.render("TETRIS",True,font_color)
+    display.blit(text_obj, (dis_board_x + 10, 10))
+
     return display, clock
 
 # Function to draw grid to display
