@@ -12,16 +12,16 @@ events = []
 #Array of RGB-colors for the figures in order: L, S, J, I, T, Z, O
 fig_color = [[249, 166, 0], [0, 255, 0], [0, 0, 255], [0, 255, 255], [162, 0, 255], [255, 0, 0], [255, 255, 0]]
 
+# Properties of players playing
+score = 0
 level = 0
 lines = 0
-score = 0
+
 
 
 #The main program
 def main():
     display, clock = setup()
-
-
 
     counter_tick = 0
     figure = tc.Figure(tc.shapes[0], tc.Point(0, 0))
@@ -35,7 +35,7 @@ def game_loop(display, clock, counter_tick, figure):
     global events
     events = pg.event.get()                             # Fetch events such as input
     grid = [[0 for x in range(count_sqr_x)]
-        for y in range(count_sqr_y)]                    #2d grid
+        for y in range(count_sqr_y)]                    # 2d grid
 
     gravityApplied = False
     if counter_tick % 5 == 0:                           # Drop down the active figure one square 
@@ -66,6 +66,7 @@ def game_loop(display, clock, counter_tick, figure):
 
     figure.draw_shape(grid)
     draw_grid(grid,display)
+    update_prop(display)
     pg.display.update()                                 # Update changes made to display
    
     clock.tick(fps)                                     # Tick
@@ -80,15 +81,7 @@ def key_pressed(key):
                 return True
     return False
 
-#def update_text_dis(display, text, size, color):
-    #font = pg.font.SysFont("comicsans", size, bold=True)
-    #display.blit(label, (dis_board_x + play_width /2 - (label.get_width()/2), top_left_y + play_height/2 - label.get_height()/2))
-   # text_obj=font_obj.render("Welcome to Pygame",True,font_color)
-       #Setup text for the display
- #   font_color = (0,150,250)
-#    font_obj = pg.font.Font('freesansbold.ttf',25)
- #   text_obj = font_obj.render("TETRIS",True,font_color)
-  #  display.blit(text_obj(dis_board_x + 10, 10))
+
 
 # Setup window etc
 def setup():                                                
@@ -101,12 +94,38 @@ def setup():
     clock = pg.time.Clock()
 
     #Setup text for the display
-    font_color = (0,150,250)
-    font_obj = pg.font.Font('freesansbold.ttf',25)
-    text_obj = font_obj.render("TETRIS",True,font_color)
-    display.blit(text_obj, (dis_board_x + 10, 10))
+    font_color_game_name = (0,150,250)
+    font_obj_game_name = pg.font.Font('freesansbold.ttf',25)
+    text_obj_game_name = font_obj_game_name.render("TETRIS",True,font_color_game_name )
+    display.blit(text_obj_game_name , (dis_board_x + 10, 10))
 
+    #Setup headlines for properties
+    font_color_headlines = (0,150,250)
+    font_obj_headlines = pg.font.Font('freesansbold.ttf',14)
+    #Score
+    text_obj_score = font_obj_headlines.render("Score",True,font_color_headlines)
+    display.blit(text_obj_score, (dis_board_x + 10, 10+70))
+    #Lines
+    text_obj_lines = font_obj_headlines.render("Lines",True,font_color_headlines)
+    display.blit(text_obj_lines , (dis_board_x + 10, 10+70+30))
+    #Level
+    text_obj_level = font_obj_headlines.render("Level",True,font_color_headlines)
+    display.blit(text_obj_level, (dis_board_x + 10, 10+70+30+30))
     return display, clock
+
+def update_prop(display):
+        font_color_prop = (255,255,255)
+        font_obj_prop = pg.font.Font('freesansbold.ttf',14)
+
+        #Show players score
+        text_obj_score_p = font_obj_prop.render(str(score),True,font_color_prop)
+        display.blit(text_obj_score_p, (dis_board_x + 10+100, 10+70))
+        #Show players lines
+        text_obj_lines_p = font_obj_prop.render(str(lines),True,font_color_prop)
+        display.blit(text_obj_lines_p, (dis_board_x + 10+100, 10+70+30))
+        #Show players level
+        text_obj_level_p = font_obj_prop.render(str(level),True,font_color_prop)
+        display.blit(text_obj_level_p, (dis_board_x + 10+100, 10+70+30+30))
 
 # Function to draw grid to display
 # Param: grid, dis
