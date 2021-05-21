@@ -1,5 +1,7 @@
 import pygame as pg
 import tetris_classes as tc
+import copy
+import random
 
 fps = 10
 square_size = 30
@@ -24,24 +26,29 @@ def main():
     display, clock = setup()
 
     counter_tick = 0
-    figure = tc.Figure(tc.shapes[0], tc.Point(0, 0))
+    figure = new_figure()
+    static_grid = [[0 for x in range(count_sqr_x)]              #2d grid used for drawing 
+        for y in range(count_sqr_y)]                            #static figures                  
     
     while True:                                             
-        game_loop(display, clock, counter_tick, figure)
+        spawn_new_figure = game_loop(display, clock, counter_tick, figure, static_grid)
         counter_tick += 1
-
+        if spawn_new_figure:
+            figure = new_figure()
+             
 # Main gameloop
-def game_loop(display, clock, counter_tick, figure):
+def game_loop(display, clock, counter_tick, figure, static_grid):
     global events
+    grid = copy.deepcopy(static_grid)                   # Copy the static_grid so we don't modify it
     events = pg.event.get()                             # Fetch events such as input
-    grid = [[0 for x in range(count_sqr_x)]
-        for y in range(count_sqr_y)]                    # 2d grid
-
+    spawn_new_figure = False
     gravityApplied = False
+    
     if counter_tick % 5 == 0:                           # Drop down the active figure one square 
         figure.pos.y += 1
         if figure.colliding(grid):
             figure.pos.y -= 1
+            spawn_new_figure = True
         else:
             gravityApplied = True
 
@@ -63,7 +70,8 @@ def game_loop(display, clock, counter_tick, figure):
         figure.pos.y += 1
         if figure.colliding(grid):
             figure.pos.y -= 1
-
+            spawn_new_figure = True
+   
     figure.draw_shape(grid)
     draw_grid(grid,display)
     update_prop(display)
@@ -71,6 +79,14 @@ def game_loop(display, clock, counter_tick, figure):
    
     clock.tick(fps)                                     # Tick
     counter_tick+=1
+    if spawn_new_figure:
+        figure.draw_shape(static_grid)                  # Makes sure the old figure sticks to
+    return spawn_new_figure                             # the static grid on collision with ground
+
+# Returns a new random figure
+def new_figure():
+    random_index = random.randrange(7)
+    return tc.Figure(tc.shapes[random_index], tc.Point(2, 0))     
 
 # Check if given key is pressed
 def key_pressed(key):
