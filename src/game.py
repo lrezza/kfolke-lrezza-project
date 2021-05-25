@@ -19,8 +19,6 @@ score = 0
 level = 0
 lines = 0
 
-
-
 #The main program
 def main():
     display, clock = setup()
@@ -41,6 +39,44 @@ def game_loop(display, clock, counter_tick, figure, static_grid):
     global events
     grid = copy.deepcopy(static_grid)                   # Copy the static_grid so we don't modify it
     events = pg.event.get()                             # Fetch events such as input
+    
+    spawn_new_figure = move_figure(figure, counter_tick, grid)
+
+    figure.draw_shape(grid)
+    draw_grid(grid,display)
+    update_prop(display)
+    pg.display.update()                                 # Update changes made to display
+   
+    clock.tick(fps)                                     # Tick
+    counter_tick+=1
+    if spawn_new_figure:
+        figure.draw_shape(static_grid)                  # Makes sure the old figure sticks to
+        check_rows(static_grid)                         # Check if rows should be deleted
+    return spawn_new_figure                             # the static grid on collision with ground
+
+#Checks the grid for full rows, if full row found it gets deleted and the pieces above 
+#get moved down a step. It then calls itself again recursively until no full rows found
+def check_rows(grid):
+    height = len(grid)
+    width = len(grid[0])
+
+    full_row = False
+    for y in reversed(range(height)):
+        for x in range(width):
+            if not full_row:
+                if grid[y][x] == 0:
+                    break
+                elif x == width - 1:
+                    full_row = True
+                    for n in range(width):              #Delete row
+                        grid[y][n] = 0                  
+            else:
+                grid[y+1][x] = grid[y][x]
+    if full_row:
+        check_rows(grid)
+            
+#Handles input and gravity to move the figure, returns whether or not to spawn a new figure
+def move_figure(figure, counter_tick, grid):
     spawn_new_figure = False
     gravityApplied = False
     
@@ -51,7 +87,6 @@ def game_loop(display, clock, counter_tick, figure, static_grid):
             spawn_new_figure = True
         else:
             gravityApplied = True
-
 
     # Check if key is pressed by player and if so move in correct direction 
     if key_pressed(pg.K_w):
@@ -71,17 +106,8 @@ def game_loop(display, clock, counter_tick, figure, static_grid):
         if figure.colliding(grid):
             figure.pos.y -= 1
             spawn_new_figure = True
-   
-    figure.draw_shape(grid)
-    draw_grid(grid,display)
-    update_prop(display)
-    pg.display.update()                                 # Update changes made to display
-   
-    clock.tick(fps)                                     # Tick
-    counter_tick+=1
-    if spawn_new_figure:
-        figure.draw_shape(static_grid)                  # Makes sure the old figure sticks to
-    return spawn_new_figure                             # the static grid on collision with ground
+
+    return spawn_new_figure
 
 # Returns a new random figure
 def new_figure():
@@ -96,8 +122,6 @@ def key_pressed(key):
             if event.key == key:
                 return True
     return False
-
-
 
 # Setup window etc
 def setup():                                                
