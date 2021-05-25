@@ -42,16 +42,6 @@ def game_loop(display, clock, counter_tick, figure, static_grid):
     grid = copy.deepcopy(static_grid)                   # Copy the static_grid so we don't modify it
     events = pg.event.get()                             # Fetch events such as input
     spawn_new_figure = False
-    gravityApplied = False
-    
-    if counter_tick % 5 == 0:                           # Drop down the active figure one square 
-        figure.pos.y += 1
-        if figure.colliding(grid):
-            figure.pos.y -= 1
-            spawn_new_figure = True
-        else:
-            gravityApplied = True
-
 
     # Check if key is pressed by player and if so move in correct direction 
     if key_pressed(pg.K_w):
@@ -66,7 +56,13 @@ def game_loop(display, clock, counter_tick, figure, static_grid):
         figure.pos.x += 1
         if figure.colliding(grid):
             figure.pos.x -= 1
-    elif key_pressed(pg.K_s) and not gravityApplied:
+    
+    if counter_tick % 5 == 0:                           # Drop down the active figure one square 
+        figure.pos.y += 1
+        if figure.colliding(grid):
+            figure.pos.y -= 1
+            spawn_new_figure = True
+    elif key_pressed(pg.K_s):     # Handles downwards movement
         figure.pos.y += 1
         if figure.colliding(grid):
             figure.pos.y -= 1
