@@ -63,6 +63,7 @@ def check_rows(grid):
     global level
     global tot_lines_cleared 
     global score
+    global lines
 
     height = len(grid)
     width = len(grid[0])
@@ -71,6 +72,8 @@ def check_rows(grid):
     full_row = False
     for y in reversed(range(height)):
         for x in range(width):
+            if grid[y][x] != 0 and lines < (height - y): #VARFÖR FUNKAR DET INTE D:
+                lines = (height - y)
             if not full_row:
                 if grid[y][x] == 0:
                     break
@@ -179,23 +182,27 @@ def setup():
     return display, clock
 
 def update_prop(display):
-        font_color_prop = (255,255,255)
-        font_obj_prop = pg.font.Font('freesansbold.ttf',14)
+    global score
+    global lines
+    global level
+    font_color_prop = (240,240,240)
+    font_obj_prop = pg.font.Font('freesansbold.ttf',14)
 
-        #Show players score
-        text_obj_score_p = font_obj_prop.render(str(score),True,font_color_prop)
-        display.blit(text_obj_score_p, (dis_board_x + 10+100, 10+70))
-        #Show players lines
-        text_obj_lines_p = font_obj_prop.render(str(lines),True,font_color_prop)
-        display.blit(text_obj_lines_p, (dis_board_x + 10+100, 10+70+30))
-        #Show players level
-        text_obj_level_p = font_obj_prop.render(str(level),True,font_color_prop)
-        display.blit(text_obj_level_p, (dis_board_x + 10+100, 10+70+30+30))
+    #Show players score
+    text_obj_score_p = font_obj_prop.render(str(score),True,font_color_prop)
+    display.blit(text_obj_score_p, (dis_board_x + 10+100, 10+70))
+    #Show players lines
+    text_obj_lines_p = font_obj_prop.render(str(lines),True,font_color_prop)
+    display.blit(text_obj_lines_p, (dis_board_x + 10+100, 10+70+30))
+    #Show players level
+    text_obj_level_p = font_obj_prop.render(str(level),True,font_color_prop)
+    display.blit(text_obj_level_p, (dis_board_x + 10+100, 10+70+30+30))
 
 # Function to draw grid to display
 # Param: grid, dis
 # Return -
 def draw_grid(grid, dis):
+    global lines
     counter = 1
     #Loop through the grid to draw every square
     for x in range(count_sqr_x):
