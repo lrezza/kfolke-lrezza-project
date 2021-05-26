@@ -55,7 +55,17 @@ def game_loop(display, clock, counter_tick, figure, static_grid):
     if spawn_new_figure:
         figure.draw_shape(static_grid)                  # Makes sure the old figure sticks to
         check_rows(static_grid)                         # Check if rows should be deleted
+        count_lines(static_grid)                        # Count the number of lines having figures on them
     return spawn_new_figure                             # the static grid on collision with ground
+
+#Counts the number of lines having static figures on 
+def count_lines(grid):
+    global lines
+    lines = 0 # Set lines to zero in case rows have been deleted
+    for y in range(count_sqr_y):
+        for x in range(count_sqr_x):
+            if grid[y][x] != 0 and lines < 20 - y:
+                lines = 20 - y
 
 #Checks the grid for full rows, if full row found it gets deleted and the pieces above 
 #get moved down a step. It then calls itself again recursively until no full rows found
@@ -63,7 +73,6 @@ def check_rows(grid):
     global level
     global tot_lines_cleared 
     global score
-    global lines
 
     height = len(grid)
     width = len(grid[0])
@@ -72,8 +81,6 @@ def check_rows(grid):
     full_row = False
     for y in reversed(range(height)):
         for x in range(width):
-            if grid[y][x] != 0 and lines < (height - y): #VARFÖR FUNKAR DET INTE D:
-                lines = (height - y)
             if not full_row:
                 if grid[y][x] == 0:
                     break
@@ -163,13 +170,13 @@ def setup():
 
     #Setup text for the display
     font_color_game_name = (0,150,250)
-    font_obj_game_name = pg.font.Font('freesansbold.ttf',25)
+    font_obj_game_name = pg.font.Font('freesansbold.ttf',30)
     text_obj_game_name = font_obj_game_name.render("TETRIS",True,font_color_game_name )
     display.blit(text_obj_game_name , (dis_board_x + 10, 10))
 
     #Setup headlines for properties
     font_color_headlines = (0,150,250)
-    font_obj_headlines = pg.font.Font('freesansbold.ttf',14)
+    font_obj_headlines = pg.font.Font('freesansbold.ttf',25)
     #Score
     text_obj_score = font_obj_headlines.render("Score",True,font_color_headlines)
     display.blit(text_obj_score, (dis_board_x + 10, 10+70))
@@ -185,8 +192,13 @@ def update_prop(display):
     global score
     global lines
     global level
+
     font_color_prop = (240,240,240)
-    font_obj_prop = pg.font.Font('freesansbold.ttf',14)
+    font_obj_prop = pg.font.Font('freesansbold.ttf',25)
+
+    #Här ska jag försök rita en jäkla rektangel för att de gamla propsen inte ska synas :))
+    rec_color = (0,0,0)
+    pg.draw.rect(display,rec_color, (dis_board_x+10+100, 0, display_x, display_y))
 
     #Show players score
     text_obj_score_p = font_obj_prop.render(str(score),True,font_color_prop)
@@ -202,7 +214,6 @@ def update_prop(display):
 # Param: grid, dis
 # Return -
 def draw_grid(grid, dis):
-    global lines
     counter = 1
     #Loop through the grid to draw every square
     for x in range(count_sqr_x):
