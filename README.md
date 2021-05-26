@@ -38,7 +38,7 @@ The work will be divided by milestone, so each person will take on their own mil
 
 To play the game the player should be in the src folder and type "python3 game.py" followed by enter.
 
-#### Execute the program
+##### Controls
 Controls: 
     Press S to make the active figure go down one square
     Press W to rotate the figure
