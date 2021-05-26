@@ -40,10 +40,10 @@ To play the game the player should be in the src folder and type "python3 game.p
 
 ##### Controls
 Controls: 
-    Press S to make the active figure go down one square
-    Press W to rotate the figure
-    Press A to make the active figure go one square to the left
-    Press D to make the active figure go one square to the right
+Press S to make the active figure go down one square.
+Press W to rotate the figure.
+Press A to make the active figure go one square to the left.
+Press D to make the active figure go one square to the right.
 
 ### Schedule 
 
