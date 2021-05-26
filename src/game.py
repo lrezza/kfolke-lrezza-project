@@ -195,19 +195,19 @@ def update_prop(display):
     font_color_prop = (240,240,240)
     font_obj_prop = pg.font.Font('freesansbold.ttf',25)
 
-    #Här ska jag försök rita en jäkla rektangel för att de gamla propsen inte ska synas :))
-    rec_color = (0,0,0)
-    pg.draw.rect(display,rec_color, (dis_board_x+10+100, 0, display_x, display_y))
+    #Drawing a black rectangel to hide old props
+    rec_color = (10, 10, 10)
+    pg.draw.rect(display,rec_color, (dis_board_x+50+100, 0, display_x, display_y))
 
     #Show players score
     text_obj_score_p = font_obj_prop.render(str(score),True,font_color_prop)
-    display.blit(text_obj_score_p, (dis_board_x + 10+100, 10+70))
+    display.blit(text_obj_score_p, (dis_board_x + 50+100, 10+70))
     #Show players lines
     text_obj_lines_p = font_obj_prop.render(str(lines),True,font_color_prop)
-    display.blit(text_obj_lines_p, (dis_board_x + 10+100, 10+70+30))
+    display.blit(text_obj_lines_p, (dis_board_x + 50+100, 10+70+30))
     #Show players level
     text_obj_level_p = font_obj_prop.render(str(level),True,font_color_prop)
-    display.blit(text_obj_level_p, (dis_board_x + 10+100, 10+70+30+30))
+    display.blit(text_obj_level_p, (dis_board_x + 50+100, 10+70+30+30))
 
 # Function to draw grid to display
 # Param: grid, dis
