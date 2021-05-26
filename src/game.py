@@ -78,15 +78,6 @@ def check_rows(grid):
 #Handles input and gravity to move the figure, returns whether or not to spawn a new figure
 def move_figure(figure, counter_tick, grid):
     spawn_new_figure = False
-    gravityApplied = False
-    
-    if counter_tick % 5 == 0:                           # Drop down the active figure one square 
-        figure.pos.y += 1
-        if figure.colliding(grid):
-            figure.pos.y -= 1
-            spawn_new_figure = True
-        else:
-            gravityApplied = True
 
     # Check if key is pressed by player and if so move in correct direction 
     if key_pressed(pg.K_w):
@@ -101,7 +92,13 @@ def move_figure(figure, counter_tick, grid):
         figure.pos.x += 1
         if figure.colliding(grid):
             figure.pos.x -= 1
-    elif key_pressed(pg.K_s) and not gravityApplied:
+
+    if counter_tick % 5 == 0:                           # Drop down the active figure one square 
+        figure.pos.y += 1
+        if figure.colliding(grid):
+            figure.pos.y -= 1
+            spawn_new_figure = True
+    elif key_pressed(pg.K_s):                           # Handles downward movement
         figure.pos.y += 1
         if figure.colliding(grid):
             figure.pos.y -= 1
