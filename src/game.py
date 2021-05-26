@@ -36,6 +36,8 @@ def main():
         counter_tick += 1
         if spawn_new_figure:
             figure = new_figure()
+            if figure.colliding(static_grid):                   #Exits game when new figure can't spawn
+                exit()
              
 # Main gameloop
 def game_loop(display, clock, counter_tick, figure, static_grid):
